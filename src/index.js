@@ -1,22 +1,23 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { createStore } from 'redux';
 
-import App from 'pages/App';
+const reducer = function(state, action){
+	if (action.type === "INCREMENT"){
+		return state + action.payload;
+	}
+	if (action.type === "DECREMENT"){
+		return state - action.payload;
+	}
+	return state;
+}
 
-render(<App />, document.getElementById('app'));
+const store = createStore(reducer, 0);
 
+store.subscribe( () => {
+	console.log("Store changed, new state: ", store.getState());
+});
 
-
-
-
-
-/* Render template for router:
-render(
-	<Router history={hashHistory}>
-		<Route path="/" component={App}>
-			<IndexRoute component={Homepage}></IndexRoute>
-			<Route path="todos" component={Todos}></Route>
-		</Route>
-	</Router>, 
-document.getElementById('app')); */
+store.dispatch({type: "INCREMENT", payload: 7});
+store.dispatch({type: "INCREMENT", payload: 2});
+store.dispatch({type: "INCREMENT", payload: 8});
+store.dispatch({type: "DECREMENT", payload: 10});
+store.dispatch({type: "INCREMENT", payload: 70});
