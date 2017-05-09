@@ -27,7 +27,23 @@ store.dispatch({type: "INCREMENT", payload: 70});*/
 
 
 
-import { combineReducers, createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import logger from "redux-logger";
+
+const customLogger = (store) => (next) => (action) => {
+	console.log("Middleware logged an action");
+	next(action);
+}
+//Could use a custom middleware to catch errors:
+const error = (store) => (next) => (action) => {
+	try{
+		next(action);
+	}catch(e){
+		console.log("Error: ", e);
+	}
+}
+
+const middleware = applyMiddleware(logger);
 
 const userReducer = (state={}, action) => {
 
@@ -54,7 +70,7 @@ const reducers = combineReducers({
 	user: userReducer,
 	tweets: tweetsReducer
 });
-const store = createStore(reducers, {});
+const store = createStore(reducers, {}, middleware);
 
 store.subscribe( () => {
 	console.log("Store changed, new state: ", store.getState());
