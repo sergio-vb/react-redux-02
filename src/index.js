@@ -1,5 +1,6 @@
-/* Example 1:
-import { createStore } from 'redux';
+ // Example 1:
+
+/*import { createStore } from 'redux';
 
 const reducer = function(state, action){
 	if (action.type === "INCREMENT"){
@@ -138,4 +139,30 @@ automatically dispatch actions of type X_PENDING, X_FULFILLED, or X_REJECTED as 
 
 
 source: https://www.youtube.com/watch?v=Td-2D-_7Y2E
+*/
+
+
+/* Basic Redux Template:
+
+1. Creating reducer(s)
+2. Applying middlewares
+3. Creating store
+4. Setting subscriptions
+5. Dispatching actions
+
+import {applyMiddleware, createStore } from "redux";
+
+const reducer = (state={}, action) => {
+	return state;
+}
+
+const middleware = applyMiddleware();
+const store = createStore(reducer, middleware);
+
+store.subscribe( () => {
+	console.log("Store changed", store.getState());
+});
+
+store.dispatch({type: "Foo"});
+
 */
